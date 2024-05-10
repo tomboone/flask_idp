@@ -1,0 +1,33 @@
+{# This template receives the following context:
+  reset_link - the link that should be fetched (GET) to reset
+  reset_token - this token is part of reset link - but can be used to
+    construct arbitrary URLs for redirecting.
+  user - the entire user model object
+  security - the Flask-Security configuration
+#}
+<div style="text-align: center; font-family: 'Helvetica Neue', sans-serif; background-color: #cccccc; padding: 1em;">
+    <div style="background-color: white; max-width: 450px; padding: 1em; border-radius: 10px; margin: auto;">
+        <div style="text-align: center; background-color: rgb(13, 110, 253); align-items: center; padding: 1em 0">
+            <div style="display: flex; align-items: center; justify-content: center">
+                <img src="https://{{ base_url }}static/images/wrlc-logo-7-white.png" alt="WRLC logo" style="max-height: 40px" />
+                <div style="color: white; margin: 0 0 0 1em; padding: 0; font-size: 1.25em;">WRLC Identity Services</div>
+            </div>
+        </div>
+        <h1 style="font-size: 1.25em;">{{ _fsdomain('Password Reset Request') }}</h1>
+        <div style="text-align: left; padding: 0 1em 1em">
+            <p>Hi {{ user.username }},</p>
+            <p>We received a request to reset your password.</p>
+            <p>If you didn't make this request, just ignore this email. Otherwise, you can reset your password.</p>
+            <p style="text-align: center; margin: 2em 0">
+                <a href="{{ reset_link }}" style="background-color: rgb(13, 110, 253); color: white; padding: 1em; text-decoration: none; border-radius: 5px">{{ _fsdomain('Reset your password') }}</a>
+            </p>
+            <p>You can also copy and paste this link into your browser:</p>
+            <p><small style="word-wrap: break-word; color: #666666;">{{ reset_link }}</small></p>
+            <p>Thanks,<br />WRLC Identity Services</p>
+        </div>
+        <div style="margin: 1em; text-align: center; font-size: 0.8em; color: #666666; max-width: 450px;">
+            <p>This email was sent to: <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+            <p>WRLC | 901 Commerce Drive, Upper Marlboro, MD 20774 | (301) 390-2000 | <a href="https://wrlc.org">https://wrlc.org</a></p>
+        </div>
+    </div>
+</div>

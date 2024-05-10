@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% macro render_field_errors(field) %}
+        {% if field.errors %}
+            <ul class=errors>
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endmacro %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.roles') }}">Roles</a>
+            </li>
+            <li class="breadcrumb-item active">Add role</li>
+        </ol>
+    </nav>
+    <h1>Add role</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="mb-3 required">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+            {{ render_field_errors(form.name) }}
+        </div>
+        <div class="mb-3 required">
+            {{form.description.label(class="form-label")}}
+            {{ form.description(class="form-control") }}
+            {{ render_field_errors(form.description) }}
+        </div>
+        <div class="actions">
+            <input type="submit" value="Add role" class="btn btn-primary">
+        </div>
+    </form>
+{% endblock %}

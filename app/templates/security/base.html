@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {% block title %}
+                {% if title %}
+                    {{ title }} -
+                {% endif %}
+                WRLC Identity Services
+            {% endblock %}
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    </head>
+    <body>
+        <header class="header mb-4 text-center">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container-fluid w-auto">
+                    <div class="navbar-nav mr-auto">
+                        <a class="navbar-brand" href="/">
+                            <img class="logo" src="{{ url_for('static', filename='images/wrlc-logo-7-white.png') }}" alt="WRLC logo" /> {{ _fsdomain('WRLC Identity Services') }}
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        {% if 'admin' in current_user.roles %}
+                            <div class="collapse navbar-collapse" id="navbarText">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ url_for('idp.admin') }}">Admin</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container-fluid text-center mt-3 px-4" style="max-width: 450px">
+            <div class="messages">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-info" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+        <footer class="footer mt-3">
+            <div class="container-fluid text-center">
+                <p class="text-muted small">This service provided by the <a href="https://www.wrlc.org/">Washington Research Library Consortium</a>.</p>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    </body>
+</html>

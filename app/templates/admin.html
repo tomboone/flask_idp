@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Admin</li>
+        </ol>
+    </nav>
+    <h1>Admin</h1>
+    {% if current_user.first_name %}
+        <p>Welcome, {{ current_user.first_name }}</p>
+    {% else %}
+        <p>Welcome, {{ current_user.username }}</p>
+    {% endif %}
+    <ul>
+        <li><a href="{{ url_for('idp.users') }}">Users</a></li>
+        <li><a href="{{ url_for('idp.roles') }}">Roles</a></li>
+        <li><a href="{{ url_for('idp.institutions') }}">Institutions</a></li>
+    </ul>
+{% endblock %}

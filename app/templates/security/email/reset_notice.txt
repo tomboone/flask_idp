@@ -1,0 +1,16 @@
+Hi {{ user.username }},
+
+Your password was just reset on WRLC Identity Services.
+
+If you didn't make this request, please contact the WRLC Service Desk Immediately:
+
+Email: ServiceDesk@wrlc.org
+Web: https://servicedesk.wrlc.org
+Phone: 301-390-2050
+
+Thanks,
+WRLC Identity Services
+
+This email was sent to: {{ user.email }}
+
+WRLC | 901 Commerce Drive, Upper Marlboro, MD 20774 | (301) 390-2000 | https://wrlc.org

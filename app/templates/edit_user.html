@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.users') }}">Users</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.user_detail', username=user.username) }}">{{ user.username }}</a>
+            </li>
+            <li class="breadcrumb-item active">Edit user</li>
+        </ol>
+    </nav>
+    <h1>Edit user</h1>
+    {% macro render_field_errors(field) %}
+        {% if field.errors %}
+            <ul class=errors>
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endmacro %}
+
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+
+        <div class="mb-3 required">
+            {{ form.username.label(class="form-label") }}
+            {% if user.username == 'root' %}
+                {{ form.username(class="form-control", readonly="readonly", disabled="disabled") }}
+                <ul class="text-secondary">
+                    <li><small><em>Username cannot be changed for the root user.</em></small></li>
+                </ul>
+            {% else %}
+                {{ form.username(class="form-control") }}
+            {% endif %}
+            {{ render_field_errors(form.username) }}
+        </div>
+        <div class="mb-3 required">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", type="email") }}
+            {{ render_field_errors(form.email) }}
+        </div>
+        <div class="mb-3">
+            {{ form.first_name.label(class="form-label") }}
+            {{ form.first_name(class="form-control") }}
+            {{ render_field_errors(form.first_name) }}
+        </div>
+        <div class="mb-3">
+            {{ form.last_name.label(class="form-label") }}
+            {{ form.last_name(class="form-control") }}
+            {{ render_field_errors(form.last_name) }}
+        </div>
+        <div class="mb-3 required">
+            {{ form.institution.label(class="form-label") }}
+            {{ form.institution(class="form-select") }}
+            {{ render_field_errors(form.institution) }}
+        </div>
+        <div class="actions">
+            <input type="submit" value="Update user" class="btn btn-success">
+            <a href="{{ url_for('idp.user_detail', username=user.username) }}" class="btn btn-dark">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

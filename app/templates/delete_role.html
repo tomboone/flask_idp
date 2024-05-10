@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.roles') }}">Roles</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.role_detail', role_name=role.name) }}"> {{ role.name }}</a>
+            </li>
+            <li class="breadcrumb-item active">Delete Role</li>
+        </ol>
+    </nav>
+    <h1>Delete role</h1>
+    {% if role.name != admin and role.name != user %}
+        <form method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ role.id }}">
+            <p>Are you sure you want to delete the role "{{ role.name }}"?</p>
+            <input type="submit" value="Delete" class="btn btn-danger">
+        </form>
+    {% else %}
+        <p>Role "{{ role.name }}" cannot be deleted.</p>
+        <p><a href="{{ url_for('idp.role_detail', role_name=role.name) }}">Return to role details</a></p>
+    {% endif %}
+{% endblock %}

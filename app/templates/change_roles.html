@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% macro render_field_errors(field) %}
+        {% if field.errors %}
+            <ul class=errors>
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endmacro %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.users') }}">Users</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.user_detail', username=user.username) }}">{{ user.username }}</a>
+            </li>
+            <li class="breadcrumb-item active">Edit roles</li>
+        </ol>
+    </nav>
+    <h1>Edit roles</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="mb-3">
+            {{ form.roles.label(class="form-label") }}
+            {{ form.roles() }}
+            {{ render_field_errors(form.roles) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Update roles</button>
+    </form>
+
+    <script type="application/javascript">
+        let elements = document.getElementsByTagName("input");
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].value === "{{ user_role|safe }}") {
+                elements[i].disabled = true;
+            }
+        }
+    </script>
+{% endblock %}

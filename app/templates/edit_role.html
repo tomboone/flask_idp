@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('idp.home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('idp.admin') }}">Admin</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('idp.roles') }}">Roles</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('idp.role_detail', role_name=role.name) }}">{{ role.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit role</li>
+    </ol>
+</nav>
+<h1>Edit role</h1>
+<form method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <div class="mb-3 required">
+        {{form.name.label(class="form-label")}}
+        {% if role.name != admin and role.name != user %}
+            {{ form.name(class="form-control") }}
+        {% else %}
+            {{ form.name(class="form-control", disabled="disabled", readonly="readonly") }}
+            <ul class="text-secondary">
+                <li><small><em>Name cannot be changed for the {{ role.name }} role.</em></small></li>
+            </ul>
+
+        {% endif %}
+    </div>
+    <div class="mb-3 required">
+        {{form.description.label(class="form-label")}}
+        {{ form.description(class="form-control") }}
+    </div>
+    <div class="actions">
+        <input type="submit" value="Update role" class="btn btn-primary">
+        <a type="button" class="btn btn-secondary" href="{{ url_for('idp.role_detail', role_name=role.name) }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

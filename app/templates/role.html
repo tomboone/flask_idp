@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.roles') }}">Roles</a>
+            </li>
+            <li class="breadcrumb-item active">{{ role.name }}</li>
+        </ol>
+    </nav>
+    <div class="row align-items-center">
+        <h1 class="col col-10">Role details</h1>
+        <div class=" col col-2 text-end">
+            <a href="{{ url_for('idp.edit_role', role_name=role.name) }}" type="button" class="btn btn-warning">Edit</a>
+            <a href="{{ url_for('idp.delete_role', role_name=role.name) }}" type="button" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    <table class="table">
+        <tr>
+            <th class="col-2 table-primary">Name</th>
+            <td class="col-10">{{ role.name }}</td>
+        </tr>
+        <tr>
+            <th class="col-2 table-primary">Description</th>
+            <td class="col-10">{{ role.description }}</td>
+        </tr>
+    </table>
+
+{% endblock %}

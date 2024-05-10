@@ -1,0 +1,49 @@
+{% extends "security/base.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors, prop_next %}
+
+{% block content %}
+    <div class="alert alert-secondary py-3 px-4 rounded-bottom-0 mb-0">
+        <h1 class="text-end border-bottom border-dark-subtle mb-3 fs-5">Log In</h1>
+        <form action="{{ url_for_security('login') }}{{ prop_next() }}" method="post" name="login_user_form">
+            {{ login_user_form.hidden_tag() }}
+            {{ render_form_errors(login_user_form) }}
+            {% if "email" in identity_attributes %}{{ render_field_with_errors(login_user_form.email) }}{% endif %}
+            {% if login_user_form.username and "username" in identity_attributes %}
+                {% if "email" in identity_attributes %}<h3>{{ _fsdomain("or") }}</h3>{% endif %}
+                {{ render_field_with_errors(login_user_form.username) }}
+            {% endif %}
+            {{ render_field_with_errors(login_user_form.password) }}
+            {{ render_field_with_errors(login_user_form.remember) }}
+            {{ render_field_errors(login_user_form.csrf_token) }}
+            {{ render_field(login_user_form.submit) }}
+        </form>
+    </div>
+    <div class="alert alert-warning rounded-top-0 my-0">
+        <p><a href="/reset">Forgot password?</a></p>
+        <hr />
+        <p>Report login problems to:<br /><a href="mailto:ServiceDesk@wrlc.org">ServiceDesk@wrlc.org</a></p>
+    </div>
+  {% if security.webauthn %}
+    <hr class="fs-gap">
+    <h2>{{ _fsdomain("Use WebAuthn to Sign In") }}</h2>
+    <div>
+      <form method="get" id="wan_signin_form" name="wan_signin_form">
+        <input id="wan_signin" name="wan_signin" type="submit" value="{{ _fsdomain('Sign in with WebAuthn') }}" formaction="{{ url_for_security('wan_signin') }}{{ prop_next() }}">
+      </form>
+    </div>
+  {% endif %}
+  {% if security.oauthglue %}
+    <hr class="fs-gap">
+    <h2>{{ _fsdomain("Use Social Oauth to Sign In") }}</h2>
+    {% for provider in security.oauthglue.provider_names %}
+      <div class="fs-gap">
+        <form method="post" id="{{ provider }}_form" name="{{ provider }}_form">
+          <input id="{{ provider }}" name="{{ provider }}" type="submit" value="{{ _fsdomain('Sign in with ')~provider }}" formaction="{{ url_for_security('oauthstart', name=provider) }}{{ prop_next() }}">
+          {% if csrf_token is defined %}
+            <input id="{{ provider }}_csrf_token" name="{{ provider }}_csrf_token" type="hidden" value="{{ csrf_token() }}">
+          {% endif %}
+        </form>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock content %}

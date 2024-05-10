@@ -1,0 +1,59 @@
+{% extends 'security/base.html' %}
+
+{% block content %}
+    <h1>My account</h1>
+    <table class="table text-start">
+        <tbody>
+            <tr>
+                <th class="table-light col-4">Username</th>
+                <td>{{ current_user.username }}</td>
+            </tr>
+            <tr>
+                <th class="table-light">Email</th>
+                <td>{{ current_user.email }}</td>
+            </tr>
+            <tr>
+                <th class="table-light">First name</th>
+                <td>{{ current_user.first_name }}</td>
+            </tr>
+            <tr>
+                <th class="table-light">Last name</th>
+                <td>{{ current_user.last_name }}</td>
+            </tr>
+            <tr>
+                <th class="table-light">Institution</th>
+                <td>{{ user_institution.name }}</td>
+            </tr>
+            <tr>
+                <th class="table-light">Last login</th>
+                <td>
+                    {% if current_user.current_login_at != None %}
+                        {{ current_user.current_login_at }}
+                    {% elif current_user.last_login_at != None %}
+                        {{ current_user.last_login_at }}
+                    {% else %}
+                        Never
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th class="table-light">Last login IP</th>
+                <td>
+                    {% if current_user.current_login_at != None %}
+                        {{ current_user.current_login_ip }}
+                    {% elif current_user.last_login_at != None %}
+                        {{ current_user.last_login_ip }}
+                    {% else %}
+                        Never
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <a href="{{ url_for('idp.edit_profile') }}" class="btn btn-success">Edit profile</a>
+        <a href="{{ url_for('security.change_password') }}" class="btn btn-warning">Change password</a>
+        <a href="{{ url_for('security.logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+{% endblock %}

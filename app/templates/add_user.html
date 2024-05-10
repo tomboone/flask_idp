@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Add user</h1>
+    {% macro render_field_errors(field) %}
+        {% if field.errors %}
+            <ul class=errors>
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endmacro %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.users') }}">Users</a>
+            </li>
+            <li class="breadcrumb-item active">Add user</li>
+        </ol>
+    </nav>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="mb-3 required">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control") }}
+            {{ render_field_errors(form.username) }}
+        </div>
+        <div class="mb-3 required">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", type="email") }}
+            {{ render_field_errors(form.email) }}
+        </div>
+        <div class="mb-3">
+            {{ form.first_name.label(class="form-label") }}
+            {{ form.first_name(class="form-control") }}
+            {{ render_field_errors(form.first_name) }}
+        </div>
+        <div class="mb-3">
+            {{ form.last_name.label(class="form-label") }}
+            {{ form.last_name(class="form-control") }}
+            {{ render_field_errors(form.last_name) }}
+        </div>
+        <div class="mb-3 required">
+            {{ form.institution.label(class="form-label") }}
+            {{ form.institution(class="form-select") }}
+            {{ render_field_errors(form.institution) }}
+        </div>
+        <div class="actions">
+            <input type="submit" value="Add user" class="btn btn-primary">
+        </div>
+    </form>
+{% endblock %}

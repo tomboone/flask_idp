@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.institutions') }}">Institutions</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.institution_detail', code=institution.code) }}">{{ institution.name }}</a>
+            </li>
+            <li class="breadcrumb-item active">Delete institution</li>
+        </ol>
+    </nav>
+    <h1>Delete institution</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <input type="hidden" name="id" value="{{ institution.id }}">
+        <p>Are you sure you want to delete the institution "{{ institution.name }}"?</p>
+        <input type="submit" value="Delete" class="btn btn-danger">
+    </form>
+{% endblock %}

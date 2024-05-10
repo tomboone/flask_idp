@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.users') }}">Users</a>
+            </li>
+            <li class="breadcrumb-item active">{{ user.username }}</li>
+        </ol>
+    </nav>
+    <div class="row align-items-center">
+        <h1 class="col">User details</h1>
+        <div class="col text-end">
+            <a href="{{ url_for('idp.edit_user', username=user.username) }}" type="button" class="btn btn-success">Edit</a>
+            <a href="{{ url_for('idp.change_roles', username=user.username) }}" type="button" class="btn btn-primary">Roles</a>
+            <a href="{{ url_for('idp.change_password', username=user.username) }}" type="button" class="btn btn-warning">Password</a>
+            <a href="{{ url_for('idp.user_status', username=user.username) }}" type="button" class="btn btn-secondary">
+                {% if user.active == 1 %}
+                    Deactivate
+                {% else %}
+                    Activate
+                {% endif %}
+            </a>
+            <a href="{{ url_for('idp.delete_user', username=user.username) }}" type="button" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="col-2 table-primary">Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">First name</th>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Last name</th>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Institution</th>
+                <td>
+                    {% if user.institution != None %}
+                        {{ user.institution.name }} ({{ user.institution.code }})
+                    {% else %}
+                        None
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Roles</th>
+                <td>
+                    {% for role in user.roles %}
+                        {{ role.name }}
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Active?</th>
+                <td>{{ user.is_active }}</td>
+            </tr>
+
+            <tr>
+                <th class="col-2 table-primary">Created</th>
+                <td>{{ user.created }}</td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Updated</th>
+                <td>{{ user.updated }}</td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Last login</th>
+                <td>
+                    {% if user.current_login_at != None %}
+                        {{ user.current_login_at }}
+                    {% elif user.last_login_at != None %}
+                        {{ user.last_login_at }}
+                    {% else %}
+                        Never
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th class="col-2 table-primary">Last login IP</th>
+                <td>
+                    {% if user.current_login_ip != None %}
+                        {{ user.current_login_ip }}
+                    {% elif user.last_login_ip != None %}
+                        {{ user.last_login_ip }}
+                    {% else %}
+                        n/a
+                    {% endif %}
+                </td>
+        </tbody>
+    </table>
+
+{% endblock %}

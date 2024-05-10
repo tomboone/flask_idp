@@ -1,0 +1,49 @@
+{% macro render_field_with_errors(field) %}
+  <div class="fs-div row mb-3 gx-0 align-items-center" id="{{ field.id|default('fs-field') }}">
+    {% if field.type != 'BooleanField' %}
+        {{ field.label(class="form-label small col text-end px-2 mb-0 fw-semibold") }} {{ field(class="border rounded bw-1 col-7 text-start px-2 py-1", **kwargs)|safe }}
+    {% else %}
+        <div class="form-check form-switch w-auto text-end ms-auto">
+            {{ field.label(class="form-check-label small") }} {{ field(class="form-check-input", checked='true', **kwargs)|safe }}
+        </div>
+    {% endif %}
+    {% if field.errors %}
+      <ul>
+        {% for error in field.errors %}<li class="fs-error-msg">{{ error }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro render_field(field) %}
+    {% if field.type != 'SubmitField' %}
+        <div class="fs-div" id="{{ field.id|default('fs-field') }}">{{ field(**kwargs)|safe }} {{ field.type }}</div>
+    {% else %}
+        <div class="fs-div text-end" id="{{ field.id|default('fs-field') }}">{{ field(class="btn btn-primary", **kwargs)|safe }}</div>
+    {% endif %}
+{% endmacro %}
+
+{% macro render_field_errors(field) %}
+  <div class="fs-div" id="{{ field.id if field else 'fs-field' }}">
+    {% if field and field.errors %}
+      <ul>
+        {% for error in field.errors %}<li class="fs-error-msg">{{ error }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# render WTForms (>3.0) form level errors #}
+{% macro render_form_errors(form) %}
+  {% if form.form_errors %}
+    <div class="fs-div" id="fs-form-errors">
+      <ul>
+        {% for error in form.form_errors %}<li class="fs-error-msg">{{ error }}</li>{% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro prop_next() -%}
+  {% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}
+{%- endmacro %}

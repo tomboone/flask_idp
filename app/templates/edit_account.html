@@ -1,0 +1,69 @@
+{% extends 'security/base.html' %}
+
+{% block content %}
+    <h1>Edit my account</h1>
+    {% macro render_field_errors(field) %}
+        {% if field.errors %}
+            <ul class=errors>
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endmacro %}
+
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+
+        <div class="mb-3">
+            <div class="required row align-items-center">
+                {{ form.username.label(class="form-label col col-4 text-end fw-bold") }}
+                {% if user.username == 'root' %}
+                    <div class="col px-0">
+                        {{ form.username(class="form-control", readonly="readonly", disabled="disabled") }}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control col") }}
+                {% endif %}
+            </div>
+            {% if user.username == 'root' %}
+                <div class="text-secondary text-end">
+                    <small><em>Username cannot be changed for the root user.</em></small>
+                </div>
+            {% endif %}
+            {{ render_field_errors(form.username) }}
+        </div>
+        <div class="mb-3">
+            <div class="required row align-items-center">
+                {{ form.email.label(class="form-label col col-4 text-end fw-bold") }}
+                {{ form.email(class="form-control col", type="email") }}
+            </div>
+            {{ render_field_errors(form.email) }}
+        </div>
+        <div class="mb-3">
+            <div class="required row align-items-center">
+                {{ form.first_name.label(class="form-label col col-4 text-end fw-bold") }}
+                {{ form.first_name(class="form-control col") }}
+            </div>
+            {{ render_field_errors(form.first_name) }}
+        </div>
+        <div class="mb-3">
+            <div class="required row align-items-center">
+                {{ form.last_name.label(class="form-label col col-4 text-end fw-bold") }}
+                {{ form.last_name(class="form-control col") }}
+            </div>
+            {{ render_field_errors(form.last_name) }}
+        </div>
+        <div class="mb-3">
+            <div class="required row align-items-center">
+                {{ form.institution.label(class="form-label col col-4 text-end fw-bold") }}
+                {{ form.institution(class="form-select col") }}
+            </div>
+            {{ render_field_errors(form.institution) }}
+        </div>
+        <div class="actions text-end">
+            <input type="submit" value="Update user" class="btn btn-success">
+            <a href="{{ url_for('idp.home') }}" class="btn btn-dark">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

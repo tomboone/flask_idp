@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.users') }}">Users</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.user_detail', username=user.username) }}">{{ user.username }}</a>
+            </li>
+            <li class="breadcrumb-item active">Delete user</li>
+        </ol>
+    </nav>
+    <h1>Delete user</h1>
+    {% if user.username != "root" %}
+        <form method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ user.id }}">
+            <p>Are you sure you want to delete the user "{{ user.username }}"?</p>
+            <input type="submit" value="Delete" class="btn btn-danger">
+        </form>
+    {% else %}
+        <div class="alert alert-danger">Root user cannot be deleted.</div>
+        <a href="{{ url_for('idp.user_detail', username=user.username) }}">Return to User detail</a>
+    {% endif %}
+{% endblock %}

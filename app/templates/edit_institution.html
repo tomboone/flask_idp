@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('idp.home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('idp.institutions') }}">Institutions</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('idp.institution_detail', code=institution.code) }}">{{ institution.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit institution</li>
+        </ol>
+    </nav>
+    <h1>Edit institution</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.admin') }}">Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.institutions') }}">Institutions</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('idp.institution_detail', code=institution.code) }}">{{ institution.name }}</a>
+            </li>
+            <li class="breadcrumb-item active">Edit institution</li>
+        </ol>
+    </nav>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="mb-3 required">
+            {{ form.code.label(class="form-label") }}
+            {{ form.code(class="form-control") }}
+        </div>
+        <div class="mb-3 required">
+            {{ form.name.label(class="form-label")}}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="actions">
+            <input type="submit" value="Update institution" class="btn btn-primary">
+        </div>
+    </form>
+
+{% endblock %}
