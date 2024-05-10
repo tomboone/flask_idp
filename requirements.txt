@@ -39,5 +39,5 @@ SQLAlchemy==2.0.29
 SQLAlchemy-Utils==0.41.2
 typing_extensions==4.11.0
 webencodings==0.5.1
-Werkzeug==3.0.2
+Werkzeug==3.0.3
 WTForms==3.1.2
