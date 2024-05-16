@@ -1,30 +1,33 @@
 services:
-  python:
+  wridp:
     build: .
     volumes:
       - .:/app
     working_dir: /app
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.python.rule=Host(`idp.wrlc.localhost`)"
-      - "traefik.http.routers.python.tls=true"
-      - "traefik.http.routers.python.entrypoints=websecure"
+      - "traefik.http.routers.wridp.rule=Host(`idp.wrlc.localhost`)"
+      - "traefik.http.routers.wridp.tls=true"
+      - "traefik.http.routers.wridp.entrypoints=websecure"
     depends_on:
-      - mysql
+      - wridp_db
     networks:
       - proxy
 
-  mysql:
+  wridp_db:
     image: mariadb:latest
     environment:
       MARIADB_ROOT_PASSWORD: root
       MYSQL_DATABASE: mydb
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-    ports:
-      - "8301:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wridp_db.rule=Host(`db.idp.wrlc.localhost`)"
+      - "traefik.tcp.services.wridp.loadbalancer.server.port=3306"
+      - "traefik.http.routers.wridp.entrypoints=mysql"
     networks:
       - proxy
 
