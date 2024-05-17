@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicon instance to serve wrlc-idp
+After=network.target
+
+[Service]
+User=wrlcidp
+Group=www-data
+WorkingDirectory=/opt/local/wrlc-idp
+Environment="PATH=/opt/local/wrlc-idp/venv/bin"
+ExecStart=/opt/local/wrlc-idp/venv/bin/gunicorn --workers 3 --bind unix:wrlc-idp.sock -m 007 wsgi:app
+ExecStart=
+
+[Install]
+WantedBy=multi-user.target
