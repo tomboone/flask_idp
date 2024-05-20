@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=wrlcidp
 Group=www-data
-WorkingDirectory=/opt/local/wrlc-idp
-Environment="PATH=/opt/local/wrlc-idp/venv/bin"
-ExecStart=/opt/local/wrlc-idp/venv/bin/gunicorn --workers 3 --bind unix:wrlc-idp.sock -m 007 wsgi:app
+WorkingDirectory=/usr/local/webapps/wrlc_idp
+Environment="PATH=/usr/local/webapps/wrlc_idp/venv/bin"
+ExecStart=/usr/local/webapps/wrlc_idp/venv/bin/gunicorn --workers 3 --bind unix:wrlc-idp.sock -m 007 wsgi:app
 ExecStart=
 
 [Install]
