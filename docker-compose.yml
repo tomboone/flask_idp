@@ -7,7 +7,7 @@ services:
     working_dir: /app
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wridp.rule=Host(`idp.jat.localhost`)"
+      - "traefik.http.routers.wridp.rule=Host(`idp.flask_idp.localhost`)"
       - "traefik.http.routers.wridp.tls=true"
       - "traefik.http.routers.wridp.entrypoints=websecure"
     depends_on:

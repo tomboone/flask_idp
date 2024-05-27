@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicon instance to serve flask-idp
+After=network.target
+
+[Service]
+User=flaskidp
+Group=www-data
+WorkingDirectory=/usr/local/webapps/flask_idp
+Environment="PATH=/usr/local/webapps/flask_idp/venv/bin"
+ExecStart=/usr/local/webapps/flask_idp/venv/bin/gunicorn --workers 3 --bind unix:flask-idp.sock -m 007 wsgi:app
+ExecStart=
+
+[Install]
+WantedBy=multi-user.target

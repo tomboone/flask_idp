@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name idp.jeanneandtom.org;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/opt/local/flask-idp/flask-idp.sock;
+    }
+}
