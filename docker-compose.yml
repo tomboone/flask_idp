@@ -1,28 +1,30 @@
 services:
-  wridp:
+  jatidp:
     build: .
+    container_name: jatidp
     volumes:
       - .:/app
     working_dir: /app
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wridp.rule=Host(`idp.wrlc.localhost`)"
+      - "traefik.http.routers.wridp.rule=Host(`idp.jat.localhost`)"
       - "traefik.http.routers.wridp.tls=true"
       - "traefik.http.routers.wridp.entrypoints=websecure"
     depends_on:
-      - wridp_db
+      - jatidp_db
     networks:
       - proxy
 
-  wridp_db:
+  jatidp_db:
     image: mariadb:latest
+    container_name: jatidp_db
     environment:
       MARIADB_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wridp
+      MYSQL_DATABASE: mydb
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - "3307:3306"
+      - "3323:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
